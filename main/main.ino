@@ -12,6 +12,16 @@
 #define LED_TYPE    WS2812B
 #define COLOR_ORDER GRB
 
+#define DATA_PIN1     18  
+#define DATA_PIN2     19  
+#define DATA_PIN3     20 
+#define DATA_PIN4     21 
+#define DATA_PIN5     12  
+#define DATA_PIN6     11  
+#define DATA_PIN7     10  
+#define DATA_PIN8     9   
+
+
 extern CRGBPalette16 myRedWhiteBluePalette;
 extern const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM;
 
@@ -37,7 +47,7 @@ AudioInputAnalog adc1(A2);         // audio shield: mic or line-in
 AudioAnalyzeFFT1024 fft;
 AudioConnection patchCord1(adc1, fft);        // audio shield: headphones & line-out
 AudioControlSGTL5000 audioShield;
-int val = 0, val2 = 0;
+int val1 = 0, val2 = 0, val3 = 0, val4 = 0, val5 = 0, val6 = 0, val7 = 0, val8 = 0;
 
 //SoftwareSerial mySerial(7, 8); // RX, TX  
 
@@ -56,7 +66,15 @@ void setup() {
   //mySerial.begin(9600);
 
   Wire.begin(); 
-  pinMode(19, INPUT);
+  pinMode(DATA_PIN1, INPUT);
+  pinMode(DATA_PIN2, INPUT);
+  pinMode(DATA_PIN3, INPUT);
+  pinMode(DATA_PIN4, INPUT);
+  pinMode(DATA_PIN5, INPUT);
+  pinMode(DATA_PIN6, INPUT);
+  pinMode(DATA_PIN7, INPUT);
+  pinMode(DATA_PIN8, INPUT);
+
 
 }
 
@@ -104,11 +122,22 @@ void loop() {
   //Serial.println(BLEinput);
 
   //hello
-
-  val = digitalRead(19);
-  val2 = digitalRead(18);
-  Serial.print(val);
-  Serial.println(val2);
+  val1 = digitalRead(DATA_PIN1);
+  val2 = digitalRead(DATA_PIN2);
+  val3 = digitalRead(DATA_PIN3);
+  val4 = digitalRead(DATA_PIN4);//
+  val5 = digitalRead(DATA_PIN5);
+  val6 = digitalRead(DATA_PIN6);
+  val7 = digitalRead(DATA_PIN7);
+  val8 = digitalRead(DATA_PIN8);
+  Serial.print(val1);
+  Serial.print(val2);
+  Serial.print(val3);
+  Serial.print(val4);
+  Serial.print(val5);
+  Serial.print(val6);
+  Serial.print(val7);
+  Serial.println(val8);
   delay(100);
 
 

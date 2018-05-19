@@ -16,6 +16,15 @@
 //test 
 #include "FastLED.h"
 
+#define DATA_PIN1     18
+#define DATA_PIN2     19
+#define DATA_PIN3     8
+#define DATA_PIN4     7
+#define DATA_PIN5     12
+#define DATA_PIN6     11
+#define DATA_PIN7     10
+#define DATA_PIN8     9
+
 int BLEinput;
 int BLEprev;
 SoftwareSerial mySerial(0, 1); // RX, TX  
@@ -24,11 +33,23 @@ void setup() {
   Serial.begin(9600);
   mySerial.begin(9600);
   delay( 3000 ); // power-up safety delay
-  pinMode(19, OUTPUT);
-  pinMode(18, OUTPUT);
+  pinMode(DATA_PIN1, OUTPUT);
+  pinMode(DATA_PIN2, OUTPUT);
+  pinMode(DATA_PIN3, OUTPUT);
+  pinMode(DATA_PIN4, OUTPUT);
+  pinMode(DATA_PIN5, OUTPUT);
+  pinMode(DATA_PIN6, OUTPUT);
+  pinMode(DATA_PIN7, OUTPUT);
+  pinMode(DATA_PIN8, OUTPUT);
 
-  digitalWrite(19, LOW);
-  digitalWrite(18, LOW);
+  digitalWrite(DATA_PIN1, LOW);
+  digitalWrite(DATA_PIN2, LOW);
+  digitalWrite(DATA_PIN3, LOW);
+  digitalWrite(DATA_PIN4, LOW);
+  digitalWrite(DATA_PIN5, LOW);
+  digitalWrite(DATA_PIN6, LOW);
+  digitalWrite(DATA_PIN7, LOW);
+  digitalWrite(DATA_PIN8, LOW);
 
 }
 
@@ -36,12 +57,9 @@ void loop() {
   BLEread();
   delay(100);
   BLEselect();
+  BLEinput = 0; //reset
 
-    
   }
-
-
-
 
 void BLEread(){
   if (mySerial.available()) {
@@ -51,21 +69,57 @@ void BLEread(){
 }
 
 void BLEselect(){
-    BLEread();
-      switch (BLEinput){
-      case 1:
-      digitalWrite(19, HIGH);
-      digitalWrite(18, HIGH);
-        break;
-      case 3:
-        digitalWrite(19, HIGH);
-        digitalWrite(18, LOW);
-        break;
-      case 4:
-        digitalWrite(19, LOW);
-        digitalWrite(18, HIGH);
-        break;
-      default:
-      break;
+  switch (BLEinput){
+    case 1:
+      digitalWrite(DATA_PIN1, HIGH);
+      digitalWrite(DATA_PIN2, HIGH);
+      digitalWrite(DATA_PIN3, HIGH);
+      digitalWrite(DATA_PIN4, HIGH);
+      digitalWrite(DATA_PIN5, HIGH);
+      digitalWrite(DATA_PIN6, HIGH);
+      digitalWrite(DATA_PIN7, HIGH);
+      digitalWrite(DATA_PIN8, HIGH);
+    break;
+    case 3:
+      digitalWrite(DATA_PIN1, HIGH);
+      digitalWrite(DATA_PIN2, HIGH);
+      digitalWrite(DATA_PIN3, HIGH);
+      digitalWrite(DATA_PIN4, HIGH);
+      digitalWrite(DATA_PIN5, LOW);
+      digitalWrite(DATA_PIN6, LOW);
+      digitalWrite(DATA_PIN7, LOW);
+      digitalWrite(DATA_PIN8, LOW);
+    break;
+    case 4:
+      digitalWrite(DATA_PIN1, LOW);
+      digitalWrite(DATA_PIN2, LOW);
+      digitalWrite(DATA_PIN3, LOW);
+      digitalWrite(DATA_PIN4, LOW);
+      digitalWrite(DATA_PIN5, HIGH);
+      digitalWrite(DATA_PIN6, HIGH);
+      digitalWrite(DATA_PIN7, HIGH);
+      digitalWrite(DATA_PIN8, HIGH);
+    break;
+    default:
+      digitalWrite(DATA_PIN1, LOW);
+      digitalWrite(DATA_PIN2, LOW);
+      digitalWrite(DATA_PIN3, LOW);
+      digitalWrite(DATA_PIN4, LOW);
+      digitalWrite(DATA_PIN5, LOW);
+      digitalWrite(DATA_PIN6, LOW);
+      digitalWrite(DATA_PIN7, LOW);
+      digitalWrite(DATA_PIN8, LOW);
+    break;
   }
+
+  // Delay and reset all pins to low
+  delay(100);
+  digitalWrite(DATA_PIN1, LOW);
+  digitalWrite(DATA_PIN2, LOW);
+  digitalWrite(DATA_PIN3, LOW);
+  digitalWrite(DATA_PIN4, LOW);
+  digitalWrite(DATA_PIN5, LOW);
+  digitalWrite(DATA_PIN6, LOW);
+  digitalWrite(DATA_PIN7, LOW);
+  digitalWrite(DATA_PIN8, LOW);
 }
