@@ -7,36 +7,27 @@
 #include <SoftwareSerial.h>
 
 #define LED_PIN     13
-#define NUM_LEDS    168
+#define NUM_LEDS    80
 #define BRIGHTNESS  200
 #define LED_TYPE    WS2812B
 #define COLOR_ORDER GRB
-
-#define DATA_PIN1     18  
-#define DATA_PIN2     19  
-#define DATA_PIN3     20 
-#define DATA_PIN4     21 
-#define DATA_PIN5     12  
-#define DATA_PIN6     11  
-#define DATA_PIN7     10  
-#define DATA_PIN8     9   
-
-
+  
 extern CRGBPalette16 myRedWhiteBluePalette;
 extern const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM;
 
 CRGB leds[NUM_LEDS];
-
 CRGB currentColor;
+
+int currentProgram = 0;
+int currentBrightness = 50;
+int currentSpeed = 10;
+int colorFlag = 0;
 
 double counter = 0; 
 int hue;
 int maxBrightness = 255;
 unsigned long timer;
-int BLEinput;
-char BLEinput2;
-int BLEprev;
-int currentBrightness = 200;
+
 char my_str[7];
 
 CRGBPalette16 currentPalette;
@@ -47,10 +38,9 @@ AudioInputAnalog adc1(A2);         // audio shield: mic or line-in
 AudioAnalyzeFFT1024 fft;
 AudioConnection patchCord1(adc1, fft);        // audio shield: headphones & line-out
 AudioControlSGTL5000 audioShield;
-int val1 = 0, val2 = 0, val3 = 0, val4 = 0, val5 = 0, val6 = 0, val7 = 0, val8 = 0;
-
-//SoftwareSerial mySerial(7, 8); // RX, TX  
-
+String val1 = 0, val2 = 0, val3 = 0, val4 = 0, val5 = 0, val6 = 0, val7 = 0, val8 = 0;
+byte c = 0x00;
+  
 void setup() {
 
   AudioMemory(12);
@@ -61,26 +51,16 @@ void setup() {
   //LED setup
   FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );
   FastLED.setBrightness(  BRIGHTNESS );
+  FastLED.clear();
+  FastLED.show();
 
   Serial.begin(9600);
-  //mySerial.begin(9600);
-
   Wire.begin(); 
-  pinMode(DATA_PIN1, INPUT);
-  pinMode(DATA_PIN2, INPUT);
-  pinMode(DATA_PIN3, INPUT);
-  pinMode(DATA_PIN4, INPUT);
-  pinMode(DATA_PIN5, INPUT);
-  pinMode(DATA_PIN6, INPUT);
-  pinMode(DATA_PIN7, INPUT);
-  pinMode(DATA_PIN8, INPUT);
-
+  pinMode(13, OUTPUT);
 
 }
 
 void loop() {
-  float n;
-  int i;
 
 
 //  if (fft.available()) {
@@ -122,43 +102,71 @@ void loop() {
   //Serial.println(BLEinput);
 
   //hello
-  val1 = digitalRead(DATA_PIN1);
-  val2 = digitalRead(DATA_PIN2);
-  val3 = digitalRead(DATA_PIN3);
-  val4 = digitalRead(DATA_PIN4);//
-  val5 = digitalRead(DATA_PIN5);
-  val6 = digitalRead(DATA_PIN6);
-  val7 = digitalRead(DATA_PIN7);
-  val8 = digitalRead(DATA_PIN8);
-  Serial.print(val1);
-  Serial.print(val2);
-  Serial.print(val3);
-  Serial.print(val4);
-  Serial.print(val5);
-  Serial.print(val6);
-  Serial.print(val7);
-  Serial.println(val8);
-  delay(100);
+  readPins();
+  programSelect();
+  //Serial.println(currentProgram);
 
-
+  //red();
+  //flashCurrent();
+  
 }
 
 
-void BLEread(){
-  Wire.requestFrom(8, 6);    // request 6 bytes from slave device #8
+void readPins(){
+  Wire.requestFrom(8, 1);
   while (Wire.available()) { // slave may send less than requested
-    //char c = Wire.read(); // receive a byte as character
-    for (int i = 0; i < 6; i++){
-      char c = Wire.read();
-      my_str[i] = c;
+    c = Wire.read(); // receive a byte as character
+  }
+  //Serial.println(c);
+  //currentProgram = 0;
+  delay(1);
+  if (c != 0x00){
+    byte reset = 0x01;
+    Wire.beginTransmission(8);   
+    Wire.write(reset);                
+    Wire.endTransmission();
+    
+    switch (c){
+    case 0x01:
+        //red
+        currentProgram = 1;
+        Serial.println("in read pins" + currentProgram);
+      break;
+      case 0x02:
+        //green
+        currentProgram = 2;
+        Serial.println("in read pins" + currentProgram);
+      break;
+      case 0x03:
+        //blue
+        currentProgram = 3;
+        Serial.println("in read pins" + currentProgram);
+      break;
+      case 0x04:
+        //blue
+        currentProgram = 4;
+      break;
+      case 0x05:
+        //blue
+        currentProgram = 5;
+      break;
+      case 0x06:
+        //blue
+        currentProgram = 6;
+      break;
+      case 0x07:
+        //blue
+        currentProgram = 7;
+      break;
+      default:
+        currentProgram = 0;
+        Serial.println("read pins 0");
+      break;
     }
-    my_str[6] = 0;
-    BLEinput = atoi(my_str);
-    Serial.println(BLEinput);
-
-    }         // print the character
+    
   }
 
+  //Update variables 
 
 
-
+}

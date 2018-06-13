@@ -1,20 +1,10 @@
 /* Notes
- *  
- *  Must unplug nano from pcb before programming
- *  2 data lines working, 8 lines will give 256 combinations.. plenty
- *  
- *  To Do:
- *    - Check how BLEread behaves, if it is possible to reset pins back to low after receiving a command. 
- *    - Add more data lines, 8 total would allow for 256 possible commands
- *  Brightness Control: 
- *    - Use 10% increments of brightness
- *    - leaves you with 246 free data lines...
- *    - Up and down brightness, implement a timed delay pin reset to null after each received ble command, assuming only prints BLEinput when a command is sent
- */
+
+*/
 
 #include <SoftwareSerial.h>
-//test 
 #include "FastLED.h"
+#include <Wire.h>
 
 #define DATA_PIN1     18
 #define DATA_PIN2     19
@@ -24,102 +14,89 @@
 #define DATA_PIN6     11
 #define DATA_PIN7     10
 #define DATA_PIN8     9
+#define Relay_PIN     2
 
 int BLEinput;
 int BLEprev;
 SoftwareSerial mySerial(0, 1); // RX, TX  
+byte x = 0x00;
+byte reset = 0x00;
 
 void setup() {  
   Serial.begin(9600);
   mySerial.begin(9600);
-  delay( 3000 ); // power-up safety delay
-  pinMode(DATA_PIN1, OUTPUT);
-  pinMode(DATA_PIN2, OUTPUT);
-  pinMode(DATA_PIN3, OUTPUT);
-  pinMode(DATA_PIN4, OUTPUT);
-  pinMode(DATA_PIN5, OUTPUT);
-  pinMode(DATA_PIN6, OUTPUT);
-  pinMode(DATA_PIN7, OUTPUT);
-  pinMode(DATA_PIN8, OUTPUT);
+  Wire.begin(8);
+  Wire.onRequest(requestEvent);
+  Wire.onReceive(receiveEvent);
+  delay( 100 );
+  pinMode(Relay_PIN, OUTPUT);
 
-  digitalWrite(DATA_PIN1, LOW);
-  digitalWrite(DATA_PIN2, LOW);
-  digitalWrite(DATA_PIN3, LOW);
-  digitalWrite(DATA_PIN4, LOW);
-  digitalWrite(DATA_PIN5, LOW);
-  digitalWrite(DATA_PIN6, LOW);
-  digitalWrite(DATA_PIN7, LOW);
-  digitalWrite(DATA_PIN8, LOW);
+  digitalWrite(Relay_PIN,HIGH); //HIGH value on Relay_PIN closes relay, aka, completes the circuit 
 
 }
 
 void loop() {  
   BLEread();
   delay(100);
-  BLEselect();
-  BLEinput = 0; //reset
-
+  
   }
+
+void requestEvent(){
+  Wire.write(x);
+}
+void receiveEvent(int bytes){
+  if(Wire.available() != 0)
+  {
+    reset = Wire.read();
+    if (reset == 0x01){
+      x = 0x00;  
+    }
+  }
+  Serial.println("reset");
+
+}
 
 void BLEread(){
   if (mySerial.available()) {
     BLEinput = mySerial.read();  
     Serial.println(BLEinput);
+    BLEselect();
   }
 }
 
 void BLEselect(){
   switch (BLEinput){
     case 1:
-      digitalWrite(DATA_PIN1, HIGH);
-      digitalWrite(DATA_PIN2, HIGH);
-      digitalWrite(DATA_PIN3, HIGH);
-      digitalWrite(DATA_PIN4, HIGH);
-      digitalWrite(DATA_PIN5, HIGH);
-      digitalWrite(DATA_PIN6, HIGH);
-      digitalWrite(DATA_PIN7, HIGH);
-      digitalWrite(DATA_PIN8, HIGH);
+      //red
+      x = 0x01;
+    break;
+    case 2:
+      //green
+      x = 0x02;
     break;
     case 3:
-      digitalWrite(DATA_PIN1, HIGH);
-      digitalWrite(DATA_PIN2, HIGH);
-      digitalWrite(DATA_PIN3, HIGH);
-      digitalWrite(DATA_PIN4, HIGH);
-      digitalWrite(DATA_PIN5, LOW);
-      digitalWrite(DATA_PIN6, LOW);
-      digitalWrite(DATA_PIN7, LOW);
-      digitalWrite(DATA_PIN8, LOW);
+      //blue
+      x = 0x03;
     break;
     case 4:
-      digitalWrite(DATA_PIN1, LOW);
-      digitalWrite(DATA_PIN2, LOW);
-      digitalWrite(DATA_PIN3, LOW);
-      digitalWrite(DATA_PIN4, LOW);
-      digitalWrite(DATA_PIN5, HIGH);
-      digitalWrite(DATA_PIN6, HIGH);
-      digitalWrite(DATA_PIN7, HIGH);
-      digitalWrite(DATA_PIN8, HIGH);
+      //blue
+      x = 0x04;
+    break;
+    case 5:
+      //blue
+      x = 0x05;
+    break;
+    case 6:
+      //blue
+      x = 0x06;
+    break;
+    case 7:
+      //blue
+      x = 0x07;
     break;
     default:
-      digitalWrite(DATA_PIN1, LOW);
-      digitalWrite(DATA_PIN2, LOW);
-      digitalWrite(DATA_PIN3, LOW);
-      digitalWrite(DATA_PIN4, LOW);
-      digitalWrite(DATA_PIN5, LOW);
-      digitalWrite(DATA_PIN6, LOW);
-      digitalWrite(DATA_PIN7, LOW);
-      digitalWrite(DATA_PIN8, LOW);
+      x = 0x00;
     break;
   }
 
-  // Delay and reset all pins to low
-  delay(100);
-  digitalWrite(DATA_PIN1, LOW);
-  digitalWrite(DATA_PIN2, LOW);
-  digitalWrite(DATA_PIN3, LOW);
-  digitalWrite(DATA_PIN4, LOW);
-  digitalWrite(DATA_PIN5, LOW);
-  digitalWrite(DATA_PIN6, LOW);
-  digitalWrite(DATA_PIN7, LOW);
-  digitalWrite(DATA_PIN8, LOW);
 }

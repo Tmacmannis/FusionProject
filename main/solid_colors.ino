@@ -1,36 +1,31 @@
 void red(){
+  colorFlag = 1;
   Serial.println("red");
-  for(int i =0; i<168; i++){
-  leds[i] = CRGB::Red;
+  for(int i =0; i<NUM_LEDS; i++){
+  leds[i] = CHSV(0, 255, currentBrightness);
   }
-  currentColor= CRGB::Red;
-  //BLEread();
-  
   FastLED.show();
-  //FastLED.clear();
 }
 
 void blue(){
-  Serial.println("blue");
-  for(int i =0; i<168; i++){
-  leds[i] = CRGB::Blue;
-  Serial.println(i);
+  colorFlag = 3;
+  for(int i =0; i<NUM_LEDS; i++){
+  leds[i] = CHSV(160, 255, currentBrightness);
   }
-  currentColor= CRGB::Blue;
   FastLED.show();
   //FastLED.clear();
 }
 
 void green(){
-  Serial.println("green");
-  for(int i =0; i<168; i++){
-  leds[i] = CRGB::Green;
+  colorFlag = 2;
+  for(int i =0; i<NUM_LEDS; i++){
+  leds[i] = CHSV(96, 255, currentBrightness);
   }
-  currentColor= CRGB::Green;
   FastLED.show();
   //FastLED.clear();
 }
 void clearStrip(){
+  colorFlag = 0;
   FastLED.clear();
   FastLED.show();
 }

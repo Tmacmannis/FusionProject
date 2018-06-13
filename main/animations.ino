@@ -1,28 +1,30 @@
 //On Animations
 void rainbow(){
-  //counter = 0;
-  int randNum = random(1,3);
-  int runTime = random(1000,4000);
-  //hue = 0;
-  timer = millis();
-  int endTimer = timer + runTime;
-  while (timer < endTimer){
-  for(int i =0; i<168; i++){
-      leds[i] = CHSV(hue + i, 255, maxBrightness);
+  colorFlag = 0;
+  counter = 0;
+  while (true){
+  for(int i =0; i<NUM_LEDS; i++){
+      leds[i] = CHSV(hue + i, 255, currentBrightness);
        }
        counter++;
-       if (counter > randNum){
+       if (counter > currentSpeed){
         counter = 0; 
         hue++;
        }
        hue = hue%255;
        FastLED.show();
-       timer = millis();
-       
-  }   
-  
-  
-  return;
+
+       readPins();
+      if (currentProgram == 4 || currentProgram == 5){
+        programSelect();
+      }
+      else if (currentProgram != 6){
+        break;
+      }
+      else {}
+      currentProgram = 6;
+  }
+
 }
 
 //Turning On Animations
