@@ -2,38 +2,48 @@ void programSelect(){
   switch (currentProgram){
     case 1:
       Serial.println("red");
-      //leds[0] = CRGB::Red;
       red();
       break;
     case 2:
       Serial.println("green");
-      //leds[0] = CRGB::Green;
       green();
       break;
     case 3:
       Serial.println("blue");
-      //leds[0] = CRGB::Blue;
       blue();
       break;
     case 4:
       Serial.println("Increase Brightness");
-      //leds[0] = CRGB::Blue;
       increaseBrightness();
       break;
     case 5:
       Serial.println("Decrease Brightness");
-      //leds[0] = CRGB::Blue;
       lowerBrightness();
       break;
     case 6:
       Serial.println("Rainbow");
-      //leds[0] = CRGB::Blue;
       rainbow();
       break;
     case 7:
       Serial.println("Off");
-      //leds[0] = CRGB::Blue;
       clearStrip();
+      break;
+    case 8:
+      Serial.println("Custom Color");
+      customColor();
+      break;
+    case 9:
+      Serial.println("hue increase");
+      increaseHue();
+      break;
+    case 10:
+      Serial.println("hue decrease");
+      lowerHue();
+      break;
+    case 11:
+      Serial.println("Preset 1");
+      colorPreset1 = hue;
+      colorPreset1();
       break;
 
     default:

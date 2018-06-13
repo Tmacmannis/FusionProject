@@ -4,6 +4,7 @@ void red(){
   for(int i =0; i<NUM_LEDS; i++){
   leds[i] = CHSV(0, 255, currentBrightness);
   }
+  hue = 0;
   FastLED.show();
 }
 
@@ -12,8 +13,8 @@ void blue(){
   for(int i =0; i<NUM_LEDS; i++){
   leds[i] = CHSV(160, 255, currentBrightness);
   }
+  hue = 160;
   FastLED.show();
-  //FastLED.clear();
 }
 
 void green(){
@@ -21,12 +22,37 @@ void green(){
   for(int i =0; i<NUM_LEDS; i++){
   leds[i] = CHSV(96, 255, currentBrightness);
   }
+  hue = 96;
   FastLED.show();
-  //FastLED.clear();
 }
+
+void customColor(){
+  colorFlag = 8;    //has to match program number
+  for(int i =0; i<NUM_LEDS; i++){
+  leds[i] = CHSV(hue, 255, currentBrightness);
+  }
+  FastLED.show();
+}
+
+//saved color presets
+void colorPreset1(){
+  colorFlag = 11;    //has to match program number
+  for(int i =0; i<NUM_LEDS; i++){
+  leds[i] = CHSV(colorPreset1, 255, currentBrightness);
+  }
+  FastLED.show();
+}
+
+void colorPreset2(){
+
+}
+
+void colorPreset3(){
+
+}
+
 void clearStrip(){
   colorFlag = 0;
-  FastLED.clear();
-  FastLED.show();
+  fadeToBlackBy( leds, NUM_LEDS, 20);
 }
 

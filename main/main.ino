@@ -22,9 +22,10 @@ int currentProgram = 0;
 int currentBrightness = 50;
 int currentSpeed = 10;
 int colorFlag = 0;
+int hue = 0;
+int preset1Hue = 0;
 
 double counter = 0; 
-int hue;
 int maxBrightness = 255;
 unsigned long timer;
 
@@ -143,20 +144,36 @@ void readPins(){
         Serial.println("in read pins" + currentProgram);
       break;
       case 0x04:
-        //blue
+        //Increase Brightness
         currentProgram = 4;
       break;
       case 0x05:
-        //blue
+        //Decrease Brightness
         currentProgram = 5;
       break;
       case 0x06:
-        //blue
+        //Rainbow
         currentProgram = 6;
       break;
       case 0x07:
-        //blue
+        //Off
         currentProgram = 7;
+      break;
+      case 0x08:
+        //custom color
+        currentProgram = 8;
+      break;
+      case 0x09:
+        //hue increase
+        currentProgram = 9;
+      break;
+      case 0x0A:
+        //hue decrease
+        currentProgram = 10;
+      break;
+      case 0x0B:
+        //preset 1
+        currentProgram = 11;
       break;
       default:
         currentProgram = 0;
