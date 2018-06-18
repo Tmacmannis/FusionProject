@@ -1,6 +1,5 @@
 void red(){
   colorFlag = 1;
-  Serial.println("red");
   for(int i =0; i<NUM_LEDS; i++){
   leds[i] = CHSV(0, 255, currentBrightness);
   }
@@ -38,7 +37,7 @@ void customColor(){
 void colorPreset1(){
   colorFlag = 11;    //has to match program number
   for(int i =0; i<NUM_LEDS; i++){
-  leds[i] = CHSV(colorPreset1, 255, currentBrightness);
+  leds[i] = CHSV(preset1Hue, 255, currentBrightness);
   }
   FastLED.show();
 }
@@ -52,7 +51,7 @@ void colorPreset3(){
 }
 
 void clearStrip(){
-  colorFlag = 0;
-  fadeToBlackBy( leds, NUM_LEDS, 20);
+  fadeToBlackBy( leds, NUM_LEDS, 10);
+  FastLED.show();
 }
 

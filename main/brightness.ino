@@ -3,7 +3,6 @@ void lowerBrightness(){
   if (currentBrightness < 0){
   	currentBrightness = 0;
   }
-  Serial.println("current brightness: " + currentBrightness);
   if (colorFlag != 0){
   	currentProgram = colorFlag;
   	programSelect();
@@ -15,7 +14,6 @@ void increaseBrightness(){
   if (currentBrightness > 255){
   	currentBrightness = 255;
   }
-  Serial.println("current brightness: " + currentBrightness);
   if (colorFlag != 0){
   	currentProgram = colorFlag;
   	programSelect();
@@ -23,25 +21,17 @@ void increaseBrightness(){
 }
 
 void lowerHue(){
-  hue -= 25;
-  if (hue < 0){
-    hue = 0;
-  }
-  Serial.println("current hue: " + hue);
+  hue = ((hue-25)%255);
   if (colorFlag != 0){
-    currentProgram = colorFlag;
+    currentProgram = 8;
     programSelect();
   }
 }
 
 void increaseHue(){
-  hue += 25;
-  if (hue > 255){
-    hue = 255;
-  }
-  Serial.println("current hue: " + hue);
+  hue = ((hue+25)%255);
   if (colorFlag != 0){
-    currentProgram = colorFlag;
+    currentProgram = 8;
     programSelect();
   }
 }

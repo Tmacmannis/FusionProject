@@ -19,7 +19,7 @@ CRGB leds[NUM_LEDS];
 CRGB currentColor;
 
 int currentProgram = 0;
-int currentBrightness = 50;
+int currentBrightness = 200;
 int currentSpeed = 10;
 int colorFlag = 0;
 int hue = 0;
@@ -131,17 +131,14 @@ void readPins(){
     case 0x01:
         //red
         currentProgram = 1;
-        Serial.println("in read pins" + currentProgram);
       break;
       case 0x02:
         //green
         currentProgram = 2;
-        Serial.println("in read pins" + currentProgram);
       break;
       case 0x03:
         //blue
         currentProgram = 3;
-        Serial.println("in read pins" + currentProgram);
       break;
       case 0x04:
         //Increase Brightness

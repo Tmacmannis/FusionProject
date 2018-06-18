@@ -15,10 +15,13 @@ void rainbow(){
        FastLED.show();
 
        readPins();
-      if (currentProgram == 4 || currentProgram == 5){
+      if (currentProgram == 4 || currentProgram == 5){ //lower or increase brightness
         programSelect();
       }
-      else if (currentProgram != 6){
+      else if (currentProgram == 9 || currentProgram == 10){ // hue up or down
+        currentProgram = 6;
+      }
+      else if (currentProgram != 6){ 
         break;
       }
       else {}
@@ -26,6 +29,37 @@ void rainbow(){
   }
 
 }
+
+
+void confetti() 
+{
+  counter = 0;
+  // random colored speckles that blink in and fade smoothly
+  while(true){
+    fadeToBlackBy( leds, NUM_LEDS, 10);
+    int pos = random16(NUM_LEDS);
+    leds[pos] += CHSV( hue + random8(64), 200, currentBrightness);
+    FastLED.delay(1000/120);
+    readPins();
+    if (currentProgram == 4 || currentProgram == 5){
+        programSelect();
+      }
+      else if (currentProgram == 9 || currentProgram == 10){
+        programSelect();
+      }
+      else if (currentProgram != 8){
+        break;
+      }
+      else {}
+      currentProgram = 8; 
+
+  }
+}
+
+
+
+
+
 
 //Turning On Animations
 int halfs[] = {21, 63, 105, 147}; // 42 84 126 168
