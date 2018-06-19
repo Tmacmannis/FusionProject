@@ -43,7 +43,7 @@ void confetti()
     leds[pos] += CHSV( hue + random8(64), 200, currentBrightness);
     FastLED.delay(1000/120);
     readPins();
-    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 9 || currentProgram == 10){
+    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 9 || currentProgram == 10){ //updates brightness and hue
         programSelect();
       }
     else if (currentProgram != 8){
@@ -66,8 +66,8 @@ void sinelon()
     int pos = beatsin16( 13, 0, NUM_LEDS-1 );
     leds[pos] += CHSV( hue, 255, currentBrightness);
     FastLED.delay(1000/120);
-    readPins();
-    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 9 || currentProgram == 10){
+    readPins(); 
+    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 9 || currentProgram == 10){ //updates brightness and hue
         programSelect();
       }
     else if (currentProgram != 12){
@@ -94,7 +94,7 @@ void sinelonDouble()
     leds[pos2] += CHSV( hue, 255, currentBrightness);
     FastLED.delay(1000/120);
     readPins();
-    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 9 || currentProgram == 10){
+    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 9 || currentProgram == 10){ //updates brightness and hue
         programSelect();
       }
     else if (currentProgram != 12){

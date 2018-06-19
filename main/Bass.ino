@@ -8,7 +8,7 @@ void bass(int number){
   averaged = averaged * 1000;
   int mappedHue = map(averaged,1,210,0,255); 
   //Serial.print(hue);
-   for(int i =0; i<168; i++){
+   for(int i =0; i<NUM_LEDS; i++){
       leds[i] = CHSV(hue + i, 255, mappedHue);
        }
        counter++;
@@ -37,4 +37,24 @@ double averageRead(int a, int b){
   return result;
 }
 
+
+//Test 
+
+  // if (fft.available()) {
+  // // each time new FFT data is available
+  // // print it all to the Arduino Serial Monitor
+  // Serial.print("FFT: ");
+  // for (i=1; i<70; i++) {
+  // n = fft.read(i);
+  // if (n >= 0.01) {
+  // Serial.print(n);
+  // Serial.print(" ");
+  // } else {
+  // Serial.print("  -  "); // don't print "0.00"
+  // }
+
+     
+  //  }
+  //  Serial.println();
+  // }
 
