@@ -62,7 +62,7 @@ void BLEread(){
     Serial.println(BLEinput);
     BLEselect();
   }
-}v
+}
 
 void BLEselect(){
   switch (BLEinput){
@@ -109,6 +109,18 @@ void BLEselect(){
     case 11:
       //blue
       x = 0x0B;
+    break;
+    case 12:
+      //blue
+      x = 0x0C;
+    break;
+    case 13:
+      //blue
+      x = 0x0D;
+    break;
+    case 14:
+      //blue
+      x = 0x0E;
     break;
     default:
       x = 0x00;

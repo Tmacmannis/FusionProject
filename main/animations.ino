@@ -25,7 +25,8 @@ void rainbow(){
         break;
       }
       else {}
-      currentProgram = 6;
+
+    currentProgram = 6;
   }
 
 }
@@ -34,6 +35,7 @@ void rainbow(){
 void confetti() 
 {
   counter = 0;
+  colorFlag = 0;
   // random colored speckles that blink in and fade smoothly
   while(true){
     fadeToBlackBy( leds, NUM_LEDS, 10);
@@ -41,23 +43,70 @@ void confetti()
     leds[pos] += CHSV( hue + random8(64), 200, currentBrightness);
     FastLED.delay(1000/120);
     readPins();
-    if (currentProgram == 4 || currentProgram == 5){
+    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 9 || currentProgram == 10){
         programSelect();
       }
-      else if (currentProgram == 9 || currentProgram == 10){
-        programSelect();
-      }
-      else if (currentProgram != 8){
+    else if (currentProgram != 8){
         break;
       }
-      else {}
-      currentProgram = 8; 
+    else {}
+
+    currentProgram = 8; 
 
   }
 }
 
 
+void sinelon()
+{
+  colorFlag = 0;
+  // a colored dot sweeping back and forth, with fading trails
+  while(true){
+    fadeToBlackBy( leds, NUM_LEDS, 20);
+    int pos = beatsin16( 13, 0, NUM_LEDS-1 );
+    leds[pos] += CHSV( hue, 255, currentBrightness);
+    FastLED.delay(1000/120);
+    readPins();
+    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 9 || currentProgram == 10){
+        programSelect();
+      }
+    else if (currentProgram != 12){
+        break;
+      }
+    else {}
 
+    currentProgram = 12; 
+
+
+  }
+}
+
+void sinelonDouble()
+{
+  colorFlag = 0;
+  // a colored dot sweeping back and forth, with fading trails
+  while(true){
+    fadeToBlackBy( leds, NUM_LEDS, 20);
+    int pos1 = beatsin16( 13, 0, 45 );
+    int pos2 = beatsin16( 13, 46, NUM_LEDS-1);
+
+    leds[pos1] += CHSV( hue, 255, currentBrightness);
+    leds[pos2] += CHSV( hue, 255, currentBrightness);
+    FastLED.delay(1000/120);
+    readPins();
+    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 9 || currentProgram == 10){
+        programSelect();
+      }
+    else if (currentProgram != 12){
+        break;
+      }
+    else {}
+
+    currentProgram = 12; 
+
+
+  }
+}
 
 
 

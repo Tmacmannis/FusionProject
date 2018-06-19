@@ -172,6 +172,18 @@ void readPins(){
         //preset 1
         currentProgram = 11;
       break;
+      case 0x0C:
+        //preset 1
+        currentProgram = 12;
+      break;
+      case 0x0D:
+        //preset 1
+        currentProgram = 13;
+      break;
+      case 0x0E:
+        //preset 1
+        currentProgram = 14;
+      break;
       default:
         currentProgram = 0;
         Serial.println("read pins 0");

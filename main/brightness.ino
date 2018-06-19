@@ -23,15 +23,15 @@ void increaseBrightness(){
 void lowerHue(){
   hue = ((hue-25)%255);
   if (colorFlag != 0){
-    currentProgram = 8;
-    programSelect();
+  	currentProgram = colorFlag;
+  	programSelect();
   }
 }
 
 void increaseHue(){
   hue = ((hue+25)%255);
   if (colorFlag != 0){
-    currentProgram = 8;
-    programSelect();
+  	currentProgram = colorFlag;
+  	programSelect();
   }
 }

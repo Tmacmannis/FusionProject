@@ -26,7 +26,7 @@ void green(){
 }
 
 void customColor(){
-  colorFlag = 8;    //has to match program number
+  colorFlag = 11;    //has to match program number
   for(int i =0; i<NUM_LEDS; i++){
   leds[i] = CHSV(hue, 255, currentBrightness);
   }

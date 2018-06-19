@@ -1,51 +1,58 @@
 void programSelect(){
   switch (currentProgram){
     case 1:
-      //Serial.println("red");
+      //red
       red();
       break;
     case 2:
-      //Serial.println("green");
+      //green
       green();
       break;
     case 3:
-      //Serial.println("blue");
+      //blue
       blue();
       break;
     case 4:
-      //Serial.println("Increase Brightness");
+      //Increase Brightness
       increaseBrightness();
       break;
     case 5:
-      //Serial.println("Decrease Brightness");
+      //Decrease Brightness
       lowerBrightness();
       break;
     case 6:
-      //Serial.println("Rainbow");
+      //Rainbow
       rainbow();
       break;
     case 7:
-      //Serial.println("Off");
+      //Lights Off
       clearStrip();
       break;
     case 8:
-      //Serial.println("Custom Color");
-      //customColor();
+      //Custom Color
       confetti();
       break;
     case 9:
-      //Serial.println("hue increase");
+      //hue increase
       increaseHue();
       break;
     case 10:
-      //Serial.println("hue decrease");
+      //hue decrease
       lowerHue();
       break;
     case 11:
-      //Serial.println("Preset 1");
-      preset1Hue = hue;
-      colorPreset1();
+      //custom color
+      customColor();
       break;
+    case 12:
+      //single chaser
+      sinelon();
+      break;
+    case 13:
+      //single chaser
+      sinelonDouble();
+      break;
+
 
     default:
     break;
