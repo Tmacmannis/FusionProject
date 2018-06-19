@@ -1,19 +1,7 @@
-/* Notes
-
-*/
-
 #include <SoftwareSerial.h>
 #include "FastLED.h"
 #include <Wire.h>
 
-#define DATA_PIN1     18
-#define DATA_PIN2     19
-#define DATA_PIN3     8
-#define DATA_PIN4     7
-#define DATA_PIN5     12
-#define DATA_PIN6     11
-#define DATA_PIN7     10
-#define DATA_PIN8     9
 #define Relay_PIN     2
 
 int BLEinput;
