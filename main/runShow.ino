@@ -1,4 +1,5 @@
 void runShow(int number){
+  showActive = true;
   int randNum = random(1,7);
   int randNum2 = random(2500,10000);
   Serial.println("hey");
@@ -8,21 +9,16 @@ void runShow(int number){
 
   switch(randNum){
     case 1:
-      quadOn();
-      quadOff();
+      
       break;
     case 2:
-      quadOn();
+      
       bass(randNum2);
-      scan0();
       break;
     case 3:
-      quadOn();
-      bass(randNum2);
-      quadOff();
+      
     default:
-      quadOn();
-      quadOff();
+      
       break;
   }
   Serial.println("test");

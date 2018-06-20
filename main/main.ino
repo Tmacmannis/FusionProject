@@ -28,6 +28,7 @@ int preset1Hue = 0;
 double counter = 0; 
 int maxBrightness = 255;
 unsigned long timer;
+bool showActive = false;
 
 CRGBPalette16 currentPalette;
 TBlendType    currentBlending;

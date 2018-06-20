@@ -14,7 +14,13 @@ void rainbow(){
        hue = hue%255;
        FastLED.show();
 
-       readPins();
+      //run a different pin checker if doing run show 
+      if (showActive){
+        currentProgram = readShowProgram;
+      }
+      else {
+        readPins();
+      }
       if (currentProgram == 4 || currentProgram == 5){ //lower or increase brightness
         programSelect();
       }
@@ -25,8 +31,7 @@ void rainbow(){
         break;
       }
       else {}
-
-    currentProgram = 6;
+      currentProgram = 6;
   }
 
 }
