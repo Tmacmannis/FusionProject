@@ -22,6 +22,7 @@ void bass(int number){
  
       
   }
+  FastLED.delay(1000/120);
 }
     return;
 }

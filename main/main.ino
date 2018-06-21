@@ -29,6 +29,7 @@ double counter = 0;
 int maxBrightness = 255;
 unsigned long timer;
 bool showActive = false;
+int readShowProgram = 0;
 
 CRGBPalette16 currentPalette;
 TBlendType    currentBlending;
@@ -62,8 +63,9 @@ void setup() {
 }
 
 void loop() {
-  readPins();
-  programSelect();
+  //readPins();
+  //programSelect();
+  bass(10000);
 }
 
 void readPins(){

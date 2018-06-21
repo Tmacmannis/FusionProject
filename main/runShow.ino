@@ -1,5 +1,6 @@
 void runShow(int number){
   showActive = true;
+  
   int randNum = random(1,7);
   int randNum2 = random(2500,10000);
   Serial.println("hey");
