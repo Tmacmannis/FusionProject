@@ -35,6 +35,8 @@ bool showActive = false;
 int readShowProgram = 0;
 bool rgbfade = false;
 int tempBright = 0;
+int tempBrightConfetti = 0;
+bool activeFadeConfetti = false;
 
 CRGBPalette16 currentPalette;
 TBlendType    currentBlending;
@@ -170,9 +172,16 @@ void checkRGB(){
     if (brightVar < 4){
       brightVar = 0;
     }
+    
     showAnalogRGB1(CHSV(hue,255,brightVar));
     tempBright += 3;
     fadeToBlackBy( leds, NUM_LEDS, 10);
-    FastLED.show(); 
+    FastLED.show();
+    fadeToBlackBy( leds, NUM_LEDS, 10);
   }
+
+
+
+  
 }
+

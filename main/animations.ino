@@ -44,13 +44,27 @@ void confetti()
 {
   counter = 0;
   colorFlag = 0;
+  int rgbConfettiBrightness = 0;
+  activeFadeConfetti = false;
+  int rgb1Hue = 0;
+  
   // random colored speckles that blink in and fade smoothly
   while(true){
     fadeToBlackBy( leds, NUM_LEDS, 10);
     int pos = random16(NUM_LEDS);
     leds[pos] += CHSV( hue + random8(64), 200, currentBrightness);
     FastLED.delay(1000/120);
-    
+
+    int rgb1 = random16(50);
+    if (rgb1 == 1){
+      rgbConfettiBrightness = currentBrightness;
+      rgb1Hue = hue + random8(64);
+      showAnalogRGB1(CHSV(rgb1,200,rgbConfettiBrightness));
+      activeFadeConfetti = true;
+    }
+    if (activeFadeConfetti){
+      rgbConfettiController(rgbConfettiBrightness, rgb1Hue);
+    }
     readPins();
     if (currentProgram == 4 || currentProgram == 5 || currentProgram == 9 || currentProgram == 10){ //updates brightness and hue
         programSelect();
@@ -63,6 +77,21 @@ void confetti()
     currentProgram = 8; 
 
   }
+}
+
+void rgbConfettiController(int rgbConfettiBrightness, int rgb1){
+  if (tempBrightConfetti > rgbConfettiBrightness){
+    tempBrightConfetti = 0;
+  }
+  int brightVar = rgbConfettiBrightness - tempBrightConfetti;
+  if (brightVar < 4){
+    brightVar = 0;
+    activeFadeConfetti = false;
+  }
+  showAnalogRGB1(CHSV(rgb1,255,brightVar));
+  tempBrightConfetti += 3;
+    //fadeToBlackBy( leds, NUM_LEDS, 10);
+    //FastLED.show(); 
 }
 
 
