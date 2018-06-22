@@ -1,8 +1,9 @@
 void red(){
   colorFlag = 1;
   for(int i =0; i<NUM_LEDS; i++){
-  leds[i] = CHSV(0, 255, currentBrightness);
+    leds[i] = CHSV(0, 255, currentBrightness);
   }
+  showAnalogRGB1(CHSV(0,255,currentBrightness));
   hue = 0;
   FastLED.show();
 }
@@ -10,8 +11,9 @@ void red(){
 void blue(){
   colorFlag = 3;
   for(int i =0; i<NUM_LEDS; i++){
-  leds[i] = CHSV(160, 255, currentBrightness);
+    leds[i] = CHSV(160, 255, currentBrightness);
   }
+  showAnalogRGB1(CHSV(160,255,currentBrightness));
   hue = 160;
   FastLED.show();
 }
@@ -21,6 +23,7 @@ void green(){
   for(int i =0; i<NUM_LEDS; i++){
   leds[i] = CHSV(96, 255, currentBrightness);
   }
+  showAnalogRGB1(CHSV(96,255,currentBrightness));
   hue = 96;
   FastLED.show();
 }
@@ -30,6 +33,7 @@ void customColor(){
   for(int i =0; i<NUM_LEDS; i++){
   leds[i] = CHSV(hue, 255, currentBrightness);
   }
+  showAnalogRGB1(CHSV(hue,255,currentBrightness));
   FastLED.show();
 }
 
@@ -51,7 +55,7 @@ void colorPreset3(){
 }
 
 void clearStrip(){
-  fadeToBlackBy( leds, NUM_LEDS, 10);
-  FastLED.show();
+  rgbfade = true;
+  currentProgram = 0;
 }
 

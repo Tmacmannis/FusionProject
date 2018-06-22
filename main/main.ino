@@ -11,6 +11,9 @@
 #define BRIGHTNESS  200
 #define LED_TYPE    WS2812B
 #define COLOR_ORDER GRB
+#define RGB_GREEN1 3
+#define RGB_RED1 4
+#define RGB_BLUE1 5
   
 extern CRGBPalette16 myRedWhiteBluePalette;
 extern const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM;
@@ -30,6 +33,8 @@ int maxBrightness = 255;
 unsigned long timer;
 bool showActive = false;
 int readShowProgram = 0;
+bool rgbfade = false;
+int tempBright = 0;
 
 CRGBPalette16 currentPalette;
 TBlendType    currentBlending;
@@ -60,12 +65,22 @@ void setup() {
   Wire.begin(); 
   pinMode(13, OUTPUT);
 
+  //rgb pins
+  pinMode(RGB_GREEN1,OUTPUT); //green1
+  pinMode(RGB_RED1,OUTPUT); 
+  pinMode(RGB_BLUE1,OUTPUT);
 }
 
 void loop() {
   readPins();
   programSelect();
+
+  EVERY_N_MILLISECONDS(1) {
+    checkRGB(); 
+  }
+  
   //bass();
+  
 }
 
 void readPins(){
@@ -142,5 +157,22 @@ void readPins(){
         Serial.println("read pins 0");
       break;
     }  
+  }
+}
+
+void checkRGB(){
+  if (tempBright > currentBrightness){
+    tempBright = 0;
+    rgbfade = false; 
+  }
+  if (rgbfade == true && currentProgram == 0){
+    int brightVar = currentBrightness - tempBright;
+    if (brightVar < 4){
+      brightVar = 0;
+    }
+    showAnalogRGB1(CHSV(hue,255,brightVar));
+    tempBright += 3;
+    fadeToBlackBy( leds, NUM_LEDS, 10);
+    FastLED.show(); 
   }
 }
