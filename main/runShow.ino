@@ -14,7 +14,7 @@ void runShow(int number){
       break;
     case 2:
       
-      bass(randNum2);
+      bass();
       break;
     case 3:
       

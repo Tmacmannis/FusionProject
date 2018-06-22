@@ -1,5 +1,7 @@
 //On Animations
 void rainbow(){
+  fadeToBlackBy( leds, NUM_LEDS, 20);
+  FastLED.show();
   colorFlag = 0;
   counter = 0;
   while (true){
@@ -102,12 +104,12 @@ void sinelonDouble()
     if (currentProgram == 4 || currentProgram == 5 || currentProgram == 9 || currentProgram == 10){ //updates brightness and hue
         programSelect();
       }
-    else if (currentProgram != 12){
+    else if (currentProgram != 13){
         break;
       }
     else {}
 
-    currentProgram = 12; 
+    currentProgram = 13; 
 
   }
 }

@@ -52,6 +52,10 @@ void programSelect(){
       //single chaser
       sinelonDouble();
       break;
+    case 14:
+      //bass bumping
+      bass();
+      break;
 
 
     default:

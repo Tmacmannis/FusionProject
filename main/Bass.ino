@@ -1,15 +1,13 @@
-void bass(int number){
+void bass(){
   counter = 0;
-  timer = millis();
-  int endTimer = timer + number;
-  while (timer < endTimer){
+  int musicLevels [] = {20,20,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250};
+  while (true){
   if (fft.available()) {
   double averaged = averageRead(1,5);
   averaged = averaged * 1000;
-  int mappedHue = map(averaged,1,210,0,255); 
-  //Serial.print(hue);
+  int mappedHue = map(averaged,1,210,0,25);
    for(int i =0; i<NUM_LEDS; i++){
-      leds[i] = CHSV(hue + i, 255, mappedHue);
+      leds[i] = CHSV(hue + i, 255, musicLevels[mappedHue]);
        }
        counter++;
        if (counter == 10){
@@ -17,12 +15,19 @@ void bass(int number){
         hue++;
        }
        hue = hue%255;
-      timer = millis();
-      FastLED.show();
- 
-      
+      FastLED.show();   
   }
-  FastLED.delay(1000/120);
+  readPins();
+    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 9 || currentProgram == 10){ //updates brightness and hue
+        currentProgram = 14;
+      }
+    else if (currentProgram != 14){
+        break;
+      }
+    else {}
+
+    currentProgram = 14; 
+
 }
     return;
 }

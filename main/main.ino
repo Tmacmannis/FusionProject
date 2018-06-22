@@ -63,9 +63,9 @@ void setup() {
 }
 
 void loop() {
-  //readPins();
-  //programSelect();
-  bass(10000);
+  readPins();
+  programSelect();
+  //bass();
 }
 
 void readPins(){
