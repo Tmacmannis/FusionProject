@@ -85,15 +85,15 @@ void BLEselect(){
   switch (BLEinput){
     case 1:
       //red
-      x = (byte)BLEinput;   //TESTNG TESTING TESTING! if works can remove case statement
+      x = (int)BLEinput;   //TESTNG TESTING TESTING! if works can remove case statement
     break;
     case 2:
       //green
-      x = (byte)BLEinput;
+      x = (int)BLEinput;
     break;
     case 3:
       //blue
-      x = (byte)BLEinput;
+      x = (int)BLEinput;
     break;
     case 4:
       //blue
