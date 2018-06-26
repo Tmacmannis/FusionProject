@@ -7,7 +7,7 @@
 SoftwareSerial mySerial(0, 1); // RX, TX  
 byte x = 0x00, reset = 0x00;
 int BLEinput, BLEprev, sensorValue, current = 0, prev = 0, stillOn = 0, offCount = 0, prev2 = 0, current2 = 0, notMoving = 0;
-bool off = true, offPressed = false;
+bool off = true, sensorOnline = true;
 
 void setup() {  
   Serial.begin(9600);
@@ -40,12 +40,12 @@ void loop() {
   //       Serial.println("Auto Off!");
   //     }
   //   }
-  //   if (offPressed){
+  //   if (sensorOnline){
   //     offCount++;
   //     Serial.print("offCount: ");
   //     Serial.println(offCount);
   //     if (offCount > 2){
-  //       offPressed = false;
+  //       sensorOnline = false;
   //       offCount = 0;
   //       Serial.println("sensor back online!");
   //     }
@@ -79,21 +79,21 @@ void BLEselect(){
   if(BLEinput != 7){
     off = false;
     stillOn = 0;
-    offPressed = false;
+    sensorOnline = false;
     offCount = 0;
   }
   switch (BLEinput){
     case 1:
       //red
-      x = 0x01;
+      x = BLEinput;   //TESTNG TESTING TESTING! if works can remove case statement
     break;
     case 2:
       //green
-      x = 0x02;
+      x = BLEinput;
     break;
     case 3:
       //blue
-      x = 0x03;
+      x = BLEinput;
     break;
     case 4:
       //blue
@@ -111,7 +111,6 @@ void BLEselect(){
       //blue
       x = 0x07;
       off = true;
-      offPressed = true;
     break;
     case 8:
       //blue
@@ -149,19 +148,22 @@ void BLEselect(){
 }
 
 void checkDoor(){
-  prev = sensorValue;
-  sensorValue = 0;
-  for (int i = 0; i < 10; i++){
-    sensorValue = sensorValue + analogRead(A1);
+  if (off && sensorOnline){
+    prev = sensorValue;
+    sensorValue = 0;
+    for (int i = 0; i < 10; i++){
+      sensorValue = sensorValue + analogRead(A1);
+    }
+    current = sensorValue/10;
+    sensorValue = current;
+    if ((current > (prev + 50) || current < (prev - 50))){
+      Serial.println("Trigger!");
+      off = false; 
+      sensorOnline = false;
+      x = 0x01; // start up animation, red for now, will be fade on to blue
+    }
+    delay(10);
   }
-  current = sensorValue/10;
-  sensorValue = current;
-  if ((current > (prev + 50) || current < (prev - 50)) && off == true && offPressed == false){
-    Serial.println("Trigger!");
-    off = false; 
-    x = 0x01; // start up animation, red for now, will be fade on to blue
-  }
-  delay(10);
 }
 
 void checkMovement(){
@@ -193,12 +195,12 @@ void checkMovement(){
 
   if(notMoving > 240){ // = 2 minutes 
     if(off){
-      offPressed = false;
+      sensorOnline = true;
       offCount = 0;
       Serial.println("sensor hasnt moved, back online!");
     }
     else { //turn lights off and sensor on
-      offPressed = false;
+      sensorOnline = true;
       offCount = 0;
       x = 0x07;
       off = true;
