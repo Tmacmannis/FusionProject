@@ -4,14 +4,10 @@
 
 #define Relay_PIN     2
 
-int BLEinput;
-int BLEprev;
 SoftwareSerial mySerial(0, 1); // RX, TX  
-byte x = 0x00;
-byte reset = 0x00;
-int sensorValue, current = 0, prev = 0, stillOn = 0, offCount = 0;
-bool off = true;
-bool offPressed = false;
+byte x = 0x00, reset = 0x00;
+int BLEinput, BLEprev, sensorValue, current = 0, prev = 0, stillOn = 0, offCount = 0, prev2 = 0, current2 = 0, notMoving = 0;
+bool off = true, offPressed = false;
 
 void setup() {  
   Serial.begin(9600);
@@ -19,53 +15,43 @@ void setup() {
   Wire.begin(8);
   Wire.onRequest(requestEvent);
   Wire.onReceive(receiveEvent);
-  delay( 100 );
+  delay(100);
   pinMode(Relay_PIN, OUTPUT);
-
   digitalWrite(Relay_PIN,HIGH); //HIGH value on Relay_PIN closes relay, aka, completes the circuit 
   sensorValue = analogRead(A1);
 }
 
 void loop() {  
   BLEread();
-  prev = sensorValue;
-  sensorValue = 0;
-  for (int i = 0; i < 10; i++){
-    sensorValue = sensorValue + analogRead(A1);
+  checkDoor();
+  EVERY_N_MILLISECONDS(500){
+    checkMovement();
   }
-  current = sensorValue/10;
-  sensorValue = current;
-  if ((current > (prev + 50) || current < (prev - 50)) && off == true && offPressed == false){
-    Serial.println("Trigger!");
-    off = false; 
-    x = 0x01;
 
-  }
-  delay(10);
-  EVERY_N_SECONDS(30){
-    if (off == false){
-      stillOn++;
-      Serial.print("stillOn count: ");
-      Serial.println(stillOn);
-    }
-    if (stillOn > 1 && off == false){
-      x = 0x07;
-      off = true;
-      stillOn = 0;
-      Serial.println("Auto Off!");
-    }
-    if (offPressed){
-      offCount++;
-      Serial.print("offCount: ");
-      Serial.println(offCount);
-      if (offCount > 2){
-        offPressed = false;
-        offCount = 0;
-        Serial.println("sensor back online!");
-      }
-    }
-  }
-  }
+  // EVERY_N_SECONDS(30){
+  //   if (off == false){
+  //     stillOn++;
+  //     Serial.print("stillOn count: ");
+  //     Serial.println(stillOn);
+  //     if (stillOn > 1){
+  //       x = 0x07;
+  //       off = true;
+  //       stillOn = 0;
+  //       Serial.println("Auto Off!");
+  //     }
+  //   }
+  //   if (offPressed){
+  //     offCount++;
+  //     Serial.print("offCount: ");
+  //     Serial.println(offCount);
+  //     if (offCount > 2){
+  //       offPressed = false;
+  //       offCount = 0;
+  //       Serial.println("sensor back online!");
+  //     }
+  //   }
+  // }
+}  
 
 void requestEvent(){
   Wire.write(x);
@@ -79,7 +65,6 @@ void receiveEvent(int bytes){
     }
   }
   Serial.println("reset");
-
 }
 
 void BLEread(){
@@ -161,5 +146,64 @@ void BLEselect(){
     break;
   }
 
+}
+
+void checkDoor(){
+  prev = sensorValue;
+  sensorValue = 0;
+  for (int i = 0; i < 10; i++){
+    sensorValue = sensorValue + analogRead(A1);
+  }
+  current = sensorValue/10;
+  sensorValue = current;
+  if ((current > (prev + 50) || current < (prev - 50)) && off == true && offPressed == false){
+    Serial.println("Trigger!");
+    off = false; 
+    x = 0x01; // start up animation, red for now, will be fade on to blue
+  }
+  delay(10);
+}
+
+void checkMovement(){
+  if (prev2 == 0){ //for initial measurement
+    for (int i = 0; i < 10; i++){
+      prev2 = prev2 + analogRead(A1);
+    }
+    prev2 = prev2/10;
+    delay(250);
+  }
+
+  for (int i = 0; i < 10; i++){
+    current2 = current2 + analogRead(A1);
+  }
+  current2 = current2/10;
+
+  if (!(current2 > (prev2 + 20) || current2 < (prev2 - 20))){
+    Serial.print("not moving for: ");
+    notMoving++
+    double notMovingCount = notMoving;
+    Serial.print(notMovingCount/2);
+    Serial.println(" seconds");
+    prev2 = current2;
+  }
+  else{
+    notMoving = 0;
+    prev2 = 0;
+  }
+
+  if(notMoving > 240){ // = 2 minutes 
+    if(off){
+      offPressed = false;
+      offCount = 0;
+      Serial.println("sensor hasnt moved, back online!");
+    }
+    else { //turn lights off and sensor on
+      offPressed = false;
+      offCount = 0;
+      x = 0x07;
+      off = true;
+      Serial.println("sensor hasnt moved, lights off and sensor back online!");
+    } 
+  }  
 }
 
