@@ -14,6 +14,9 @@
 #define RGB_GREEN1 3
 #define RGB_RED1 4
 #define RGB_BLUE1 5
+#define RGB_GREEN2 6
+#define RGB_RED2 23
+#define RGB_BLUE2 22
   
 extern CRGBPalette16 myRedWhiteBluePalette;
 extern const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM;
@@ -74,15 +77,21 @@ void setup() {
 }
 
 void loop() {
-  readPins();
-  programSelect();
+  // readPins();
+  // programSelect();
 
-  EVERY_N_MILLISECONDS(1) {
-    checkRGB(); 
-  }
+  // EVERY_N_MILLISECONDS(1) {
+  //   checkRGB(); 
+  // }
   
-  //bass();
-  
+  colorBars();
+  red();
+  delay(1000);
+  blue();
+  delay(1000);
+  green();
+  delay(1000);
+
 }
 
 void readPins(){
@@ -174,9 +183,10 @@ void checkRGB(){
     }
     
     showAnalogRGB1(CHSV(hue,255,brightVar));
-    tempBright += 3;
+    showAnalogRGB2(CHSV(hue,255,brightVar));
+    tempBright += 5;
     fadeToBlackBy( leds, NUM_LEDS, 10);
-    FastLED.show();
+    FastLED.delay(10);
     fadeToBlackBy( leds, NUM_LEDS, 10);
   }
 

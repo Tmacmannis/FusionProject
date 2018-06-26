@@ -4,6 +4,7 @@ void red(){
     leds[i] = CHSV(0, 255, currentBrightness);
   }
   showAnalogRGB1(CHSV(0,255,currentBrightness));
+  showAnalogRGB2(CHSV(0,255,currentBrightness));
   hue = 0;
   FastLED.show();
 }
@@ -14,6 +15,7 @@ void blue(){
     leds[i] = CHSV(160, 255, currentBrightness);
   }
   showAnalogRGB1(CHSV(160,255,currentBrightness));
+  showAnalogRGB2(CHSV(160,255,currentBrightness));
   hue = 160;
   FastLED.show();
 }
@@ -24,6 +26,7 @@ void green(){
   leds[i] = CHSV(96, 255, currentBrightness);
   }
   showAnalogRGB1(CHSV(96,255,currentBrightness));
+  showAnalogRGB2(CHSV(96,255,currentBrightness));
   hue = 96;
   FastLED.show();
 }
@@ -34,6 +37,7 @@ void customColor(){
   leds[i] = CHSV(hue, 255, currentBrightness);
   }
   showAnalogRGB1(CHSV(hue,255,currentBrightness));
+  showAnalogRGB2(CHSV(hue,255,currentBrightness));
   FastLED.show();
 }
 

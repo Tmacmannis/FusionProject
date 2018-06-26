@@ -9,6 +9,7 @@ void rainbow(){
       leds[i] = CHSV(hue + i, 255, currentBrightness);
     }
     showAnalogRGB1(CHSV(hue,255,currentBrightness));
+    showAnalogRGB2(CHSV(hue + 60,255,currentBrightness));
     counter++;
     if (counter > currentSpeed){
       counter = 0; 

@@ -9,6 +9,9 @@ int BLEprev;
 SoftwareSerial mySerial(0, 1); // RX, TX  
 byte x = 0x00;
 byte reset = 0x00;
+int sensorValue, current = 0, prev = 0, stillOn = 0, offCount = 0;
+bool off = true;
+bool offPressed = false;
 
 void setup() {  
   Serial.begin(9600);
@@ -20,13 +23,48 @@ void setup() {
   pinMode(Relay_PIN, OUTPUT);
 
   digitalWrite(Relay_PIN,HIGH); //HIGH value on Relay_PIN closes relay, aka, completes the circuit 
-
+  sensorValue = analogRead(A1);
 }
 
 void loop() {  
   BLEread();
-  delay(100);
-  
+  prev = sensorValue;
+  sensorValue = 0;
+  for (int i = 0; i < 10; i++){
+    sensorValue = sensorValue + analogRead(A1);
+  }
+  current = sensorValue/10;
+  sensorValue = current;
+  if ((current > (prev + 50) || current < (prev - 50)) && off == true && offPressed == false){
+    Serial.println("Trigger!");
+    off = false; 
+    x = 0x01;
+
+  }
+  delay(10);
+  EVERY_N_SECONDS(30){
+    if (off == false){
+      stillOn++;
+      Serial.print("stillOn count: ");
+      Serial.println(stillOn);
+    }
+    if (stillOn > 1 && off == false){
+      x = 0x07;
+      off = true;
+      stillOn = 0;
+      Serial.println("Auto Off!");
+    }
+    if (offPressed){
+      offCount++;
+      Serial.print("offCount: ");
+      Serial.println(offCount);
+      if (offCount > 2){
+        offPressed = false;
+        offCount = 0;
+        Serial.println("sensor back online!");
+      }
+    }
+  }
   }
 
 void requestEvent(){
@@ -53,6 +91,12 @@ void BLEread(){
 }
 
 void BLEselect(){
+  if(BLEinput != 7){
+    off = false;
+    stillOn = 0;
+    offPressed = false;
+    offCount = 0;
+  }
   switch (BLEinput){
     case 1:
       //red
@@ -81,6 +125,8 @@ void BLEselect(){
     case 7:
       //blue
       x = 0x07;
+      off = true;
+      offPressed = true;
     break;
     case 8:
       //blue
@@ -116,3 +162,4 @@ void BLEselect(){
   }
 
 }
+

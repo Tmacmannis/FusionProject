@@ -11,6 +11,7 @@ void bass(){
       }
       Serial.println(musicLevels[mappedHue]);
       showAnalogRGB1( CHSV( hue, 255, musicLevels[mappedHue]) );
+      showAnalogRGB2( CHSV( hue, 255, musicLevels[mappedHue]) );
       counter++;
       if (counter == 10){
         counter = 0; 
