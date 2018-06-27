@@ -5,9 +5,9 @@
 #define Relay_PIN     2
 
 SoftwareSerial mySerial(0, 1); // RX, TX  
-byte x = 0x00, reset = 0x00;
-int BLEinput, BLEprev, sensorValue, current = 0, prev = 0, stillOn = 0, offCount = 0, prev2 = 0, current2 = 0, notMoving = 0;
-bool off = true, sensorOnline = true;
+byte x = 0x00, reset = 0x00, offValue = 0x00;
+int BLEinput, BLEprev, sensorValue, current = 0, prev = 0, stillOn = 0, offCount = 0, prev2 = 0, current2 = 0, notMoving = 0, xCount = 0;
+bool off = true, sensorOnline = true, offOverride = false;
 
 void setup() {  
   Serial.begin(9600);
@@ -23,34 +23,16 @@ void setup() {
 
 void loop() {  
   BLEread();
+  delay(10);
   checkDoor();
   EVERY_N_MILLISECONDS(500){
     checkMovement();
   }
-
-  // EVERY_N_SECONDS(30){
-  //   if (off == false){
-  //     stillOn++;
-  //     Serial.print("stillOn count: ");
-  //     Serial.println(stillOn);
-  //     if (stillOn > 1){
-  //       x = 0x07;
-  //       off = true;
-  //       stillOn = 0;
-  //       Serial.println("Auto Off!");
-  //     }
-  //   }
-  //   if (sensorOnline){
-  //     offCount++;
-  //     Serial.print("offCount: ");
-  //     Serial.println(offCount);
-  //     if (offCount > 2){
-  //       sensorOnline = false;
-  //       offCount = 0;
-  //       Serial.println("sensor back online!");
-  //     }
-  //   }
-  // }
+  if (x != 0){
+  Serial.print("x is: ");
+  Serial.println(x);
+  }
+  
 }  
 
 void requestEvent(){
@@ -65,6 +47,8 @@ void receiveEvent(int bytes){
     }
   }
   Serial.println("reset");
+  notMoving = 0;
+
 }
 
 void BLEread(){
@@ -85,15 +69,15 @@ void BLEselect(){
   switch (BLEinput){
     case 1:
       //red
-      x = (int)BLEinput;   //TESTNG TESTING TESTING! if works can remove case statement
+      x = 0x01;   //TESTNG TESTING TESTING! if works can remove case statement
     break;
     case 2:
       //green
-      x = (int)BLEinput;
+      x = 0x02;
     break;
     case 3:
       //blue
-      x = (int)BLEinput;
+      x = 0x03;
     break;
     case 4:
       //blue
@@ -144,12 +128,20 @@ void BLEselect(){
       x = 0x00;
     break;
   }
-
 }
 
 void checkDoor(){
   if (off && sensorOnline){
-    prev = sensorValue;
+
+    if (prev == 0){ //for initial measurement
+      for (int i = 0; i < 10; i++){
+        prev = prev + analogRead(A1);
+      }
+      prev = prev/10;
+      delay(250);
+  }
+
+    
     sensorValue = 0;
     for (int i = 0; i < 10; i++){
       sensorValue = sensorValue + analogRead(A1);
@@ -158,10 +150,15 @@ void checkDoor(){
     sensorValue = current;
     if ((current > (prev + 50) || current < (prev - 50))){
       Serial.println("Trigger!");
-      off = false; 
+      off = false;
+      notMoving = 0; 
       sensorOnline = false;
       x = 0x01; // start up animation, red for now, will be fade on to blue
     }
+    else {
+      prev = 0;
+    }
+    prev = sensorValue;
     delay(10);
   }
 }
@@ -180,32 +177,38 @@ void checkMovement(){
   }
   current2 = current2/10;
 
-  if (!(current2 > (prev2 + 20) || current2 < (prev2 - 20))){
-    Serial.print("not moving for: ");
-    notMoving++
-    double notMovingCount = notMoving;
-    Serial.print(notMovingCount/2);
-    Serial.println(" seconds");
-    prev2 = current2;
+  if (!(current2 > (prev2 + 5) || current2 < (prev2 - 5))){
+    notMoving++;
+    
   }
   else{
     notMoving = 0;
     prev2 = 0;
   }
 
-  if(notMoving > 240){ // = 2 minutes 
+  prev2 = current2;
+
+  if(notMoving > 120){ // = 2 minutes 
     if(off){
+      notMoving = 0;
       sensorOnline = true;
       offCount = 0;
       Serial.println("sensor hasnt moved, back online!");
     }
     else { //turn lights off and sensor on
+      //notMoving = 0;
       sensorOnline = true;
       offCount = 0;
       x = 0x07;
       off = true;
       Serial.println("sensor hasnt moved, lights off and sensor back online!");
     } 
-  }  
+
+    prev = 0;
+  } 
+  if (notMoving == 5 || notMoving == 15){
+    Serial.println(notMoving);
+  }
+  delay(10); 
 }
 

@@ -77,20 +77,22 @@ void setup() {
 }
 
 void loop() {
-  // readPins();
-  // programSelect();
+  readPins();
+  programSelect();
 
-  // EVERY_N_MILLISECONDS(1) {
-  //   checkRGB(); 
-  // }
+  EVERY_N_MILLISECONDS(1) {
+    checkRGB(); 
+  }
+
+  //Serial.println("here");
   
-  colorBars();
-  red();
-  delay(1000);
-  blue();
-  delay(1000);
-  green();
-  delay(1000);
+  // colorBars();
+  // red();
+  // delay(1000);
+  // blue();
+  // delay(1000);
+  // green();
+  // delay(1000);
 
 }
 
