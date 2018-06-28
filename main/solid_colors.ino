@@ -1,3 +1,15 @@
+void powerOn(){
+  for (int i = 0; i < 200; i++){
+    for(int y =0; y<NUM_LEDS; y++){
+      leds[y] = CHSV(160, 255, i);
+    }
+    showAnalogRGB1(CHSV(160,255,i));
+    showAnalogRGB2(CHSV(160,255,i));
+    FastLED.show();
+    delay(10); //2 second turn on time
+  }
+}
+
 void red(){
   colorFlag = 1;
   for(int i =0; i<NUM_LEDS; i++){

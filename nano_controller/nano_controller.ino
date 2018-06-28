@@ -6,7 +6,7 @@
 
 SoftwareSerial mySerial(0, 1); // RX, TX  
 byte x = 0x00, reset = 0x00, offValue = 0x00;
-int BLEinput, BLEprev, sensorValue, current = 0, prev = 0, stillOn = 0, offCount = 0, prev2 = 0, current2 = 0, notMoving = 0, xCount = 0;
+int BLEinput, BLEprev, sensorValue, current = 0, prev = 0, stillOn = 0, prev2 = 0, current2 = 0, notMoving = 0, xCount = 0;
 bool off = true, sensorOnline = true, offOverride = false;
 
 void setup() {  
@@ -28,11 +28,6 @@ void loop() {
   EVERY_N_MILLISECONDS(500){
     checkMovement();
   }
-  if (x != 0){
-  Serial.print("x is: ");
-  Serial.println(x);
-  }
-  
 }  
 
 void requestEvent(){
@@ -64,84 +59,87 @@ void BLEselect(){
     off = false;
     stillOn = 0;
     sensorOnline = false;
-    offCount = 0;
   }
-  switch (BLEinput){
-    case 1:
-      //red
-      x = 0x01;   //TESTNG TESTING TESTING! if works can remove case statement
-    break;
-    case 2:
-      //green
-      x = 0x02;
-    break;
-    case 3:
-      //blue
-      x = 0x03;
-    break;
-    case 4:
-      //blue
-      x = 0x04;
-    break;
-    case 5:
-      //blue
-      x = 0x05;
-    break;
-    case 6:
-      //blue
-      x = 0x06;
-    break;
-    case 7:
-      //blue
-      x = 0x07;
-      off = true;
-    break;
-    case 8:
-      //blue
-      x = 0x08;
-    break;
-    case 9:
-      //blue
-      x = 0x09;
-    break;
-    case 10:
-      //blue
-      x = 0x0A;
-    break;
-    case 11:
-      //blue
-      x = 0x0B;
-    break;
-    case 12:
-      //blue
-      x = 0x0C;
-    break;
-    case 13:
-      //blue
-      x = 0x0D;
-    break;
-    case 14:
-      //blue
-      x = 0x0E;
-    break;
-    default:
-      x = 0x00;
-    break;
+  else{
+    off = true;
   }
+
+  x = (int)BLEinput;
+
+  // switch (BLEinput){
+  //   case 1:
+  //     //red
+  //     x = 0x01;   //TESTNG TESTING TESTING! if works can remove case statement
+  //   break;
+  //   case 2:
+  //     //green
+  //     x = 0x02;
+  //   break;
+  //   case 3:
+  //     //blue
+  //     x = 0x03;
+  //   break;
+  //   case 4:
+  //     //blue
+  //     x = 0x04;
+  //   break;
+  //   case 5:
+  //     //blue
+  //     x = 0x05;
+  //   break;
+  //   case 6:
+  //     //blue
+  //     x = 0x06;
+  //   break;
+  //   case 7:
+  //     //blue
+  //     x = 0x07;
+  //     off = true;
+  //   break;
+  //   case 8:
+  //     //blue
+  //     x = 0x08;
+  //   break;
+  //   case 9:
+  //     //blue
+  //     x = 0x09;
+  //   break;
+  //   case 10:
+  //     //blue
+  //     x = 0x0A;
+  //   break;
+  //   case 11:
+  //     //blue
+  //     x = 0x0B;
+  //   break;
+  //   case 12:
+  //     //blue
+  //     x = 0x0C;
+  //   break;
+  //   case 13:
+  //     //blue
+  //     x = 0x0D;
+  //   break;
+  //   case 14:
+  //     //blue
+  //     x = 0x0E;
+  //   break;
+  //   default:
+  //     x = 0x00;
+  //   break;
+  // }
 }
 
 void checkDoor(){
   if (off && sensorOnline){
-
     if (prev == 0){ //for initial measurement
       for (int i = 0; i < 10; i++){
         prev = prev + analogRead(A1);
       }
       prev = prev/10;
       delay(250);
-  }
+    }
 
-    
     sensorValue = 0;
     for (int i = 0; i < 10; i++){
       sensorValue = sensorValue + analogRead(A1);
@@ -179,7 +177,6 @@ void checkMovement(){
 
   if (!(current2 > (prev2 + 5) || current2 < (prev2 - 5))){
     notMoving++;
-    
   }
   else{
     notMoving = 0;
@@ -192,13 +189,11 @@ void checkMovement(){
     if(off){
       notMoving = 0;
       sensorOnline = true;
-      offCount = 0;
       Serial.println("sensor hasnt moved, back online!");
     }
     else { //turn lights off and sensor on
-      //notMoving = 0;
+      notMoving = 0;
       sensorOnline = true;
-      offCount = 0;
       x = 0x07;
       off = true;
       Serial.println("sensor hasnt moved, lights off and sensor back online!");
@@ -206,8 +201,8 @@ void checkMovement(){
 
     prev = 0;
   } 
-  if (notMoving == 5 || notMoving == 15){
-    Serial.println(notMoving);
+  if (notMoving == 2){
+    Serial.println("timer at 1 second!");
   }
   delay(10); 
 }
