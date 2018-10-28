@@ -1,14 +1,14 @@
 void programSelect(){
   switch (currentProgram){
-    case 1:
+    case 32:
       //red
       red();
       break;
-    case 2:
+    case 33:
       //green
       green();
       break;
-    case 3:
+    case 34:
       //blue
       blue();
       break;
@@ -20,39 +20,39 @@ void programSelect(){
       //Decrease Brightness
       lowerBrightness();
       break;
-    case 6:
+    case 35:
       //Rainbow
       rainbow();
       break;
-    case 7:
+    case 36:
       //Lights Off
       clearStrip();
       break;
-    case 8:
+    case 40:
       //Custom Color
       confetti();
       break;
-    case 9:
+    case 38:
       //hue increase
       increaseHue();
       break;
-    case 10:
+    case 39:
       //hue decrease
       lowerHue();
       break;
-    case 11:
+    case 37:
       //custom color
       customColor();
       break;
-    case 12:
+    case 41:
       //single chaser
       sinelon();
       break;
-    case 13:
+    case 42:
       //single chaser
       sinelonDouble();
       break;
-    case 14:
+    case 43:
       //bass bumping
       bass();
       break;
@@ -66,3 +66,20 @@ void programSelect(){
 }
 
 
+/*
+Program Number code:
+red: 32
+green: 33
+blue: 34
+increaseBrightness: 4
+lowerBrightness: 5
+rainbow: 35
+clearStrip: 36
+confetti: 40
+increaseHue: 38
+lowerHue: 39
+customColor: 37
+sinelon: 41
+sinelonDouble: 42
+bass: 43
+*/

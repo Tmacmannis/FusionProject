@@ -28,14 +28,14 @@ void rainbow(){
     if (currentProgram == 4 || currentProgram == 5){ //lower or increase brightness
       programSelect();
     }
-    else if (currentProgram == 9 || currentProgram == 10){ // hue up or down
-      currentProgram = 6;
+    else if (currentProgram == 38 || currentProgram == 39){ // hue up or down
+      currentProgram = 35;
     }
-    else if (currentProgram != 6){ 
+    else if (currentProgram != 35){ 
       break;
     }
     else {}
-    currentProgram = 6;
+    currentProgram = 35;
   }
 
 }
@@ -67,15 +67,15 @@ void confetti()
       rgbConfettiController(rgbConfettiBrightness, rgb1Hue);
     }
     readPins();
-    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 9 || currentProgram == 10){ //updates brightness and hue
+    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 38 || currentProgram == 39){ //updates brightness and hue
         programSelect();
       }
-    else if (currentProgram != 8){
+    else if (currentProgram != 40){
         break;
       }
     else {}
 
-    currentProgram = 8; 
+    currentProgram = 40; 
 
   }
 }
@@ -106,15 +106,15 @@ void sinelon()
     leds[pos] += CHSV( hue, 255, currentBrightness);
     FastLED.delay(1000/120);
     readPins(); 
-    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 9 || currentProgram == 10){ //updates brightness and hue
+    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 38 || currentProgram == 39){ //updates brightness and hue
         programSelect();
       }
-    else if (currentProgram != 12){
+    else if (currentProgram != 41){
         break;
       }
     else {}
 
-    currentProgram = 12; 
+    currentProgram = 41; 
 
 
   }
@@ -133,15 +133,15 @@ void sinelonDouble()
     leds[pos2] += CHSV( hue, 255, currentBrightness);
     FastLED.delay(1000/120);
     readPins();
-    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 9 || currentProgram == 10){ //updates brightness and hue
+    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 38 || currentProgram == 39){ //updates brightness and hue
         programSelect();
       }
-    else if (currentProgram != 13){
+    else if (currentProgram != 42){
         break;
       }
     else {}
 
-    currentProgram = 13; 
+    currentProgram = 42; 
 
   }
 }

@@ -66,68 +66,6 @@ void BLEselect(){
 
   x = (int)BLEinput;
 
-  // switch (BLEinput){
-  //   case 1:
-  //     //red
-  //     x = 0x01;   //TESTNG TESTING TESTING! if works can remove case statement
-  //   break;
-  //   case 2:
-  //     //green
-  //     x = 0x02;
-  //   break;
-  //   case 3:
-  //     //blue
-  //     x = 0x03;
-  //   break;
-  //   case 4:
-  //     //blue
-  //     x = 0x04;
-  //   break;
-  //   case 5:
-  //     //blue
-  //     x = 0x05;
-  //   break;
-  //   case 6:
-  //     //blue
-  //     x = 0x06;
-  //   break;
-  //   case 7:
-  //     //blue
-  //     x = 0x07;
-  //     off = true;
-  //   break;
-  //   case 8:
-  //     //blue
-  //     x = 0x08;
-  //   break;
-  //   case 9:
-  //     //blue
-  //     x = 0x09;
-  //   break;
-  //   case 10:
-  //     //blue
-  //     x = 0x0A;
-  //   break;
-  //   case 11:
-  //     //blue
-  //     x = 0x0B;
-  //   break;
-  //   case 12:
-  //     //blue
-  //     x = 0x0C;
-  //   break;
-  //   case 13:
-  //     //blue
-  //     x = 0x0D;
-  //   break;
-  //   case 14:
-  //     //blue
-  //     x = 0x0E;
-  //   break;
-  //   default:
-  //     x = 0x00;
-  //   break;
-  // }
 }
 
 void checkDoor(){

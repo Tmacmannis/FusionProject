@@ -22,14 +22,14 @@ void bass(){
     }
     readPins();
     if (currentProgram == 4 || currentProgram == 5 || currentProgram == 9 || currentProgram == 10){ //updates brightness and hue
-      currentProgram = 14;
+      currentProgram = 43;
     }
-    else if (currentProgram != 14){
+    else if (currentProgram != 43){
       break;
     }
     else {}
 
-    currentProgram = 14; 
+    currentProgram = 43; 
 
   }
     return;

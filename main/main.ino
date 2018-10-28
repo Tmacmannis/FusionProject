@@ -109,69 +109,6 @@ void readPins(){
     Wire.endTransmission();
     
     currentProgram = c;
-    
-    // switch (c){
-    //   case 0x01:
-    //     //red
-    //     currentProgram = 1;
-    //   break;
-    //   case 0x02:
-    //     //green
-    //     currentProgram = 2;
-    //   break;
-    //   case 0x03:
-    //     //blue
-    //     currentProgram = 3;
-    //   break;
-    //   case 0x04:
-    //     //Increase Brightness
-    //     currentProgram = 4;
-    //   break;
-    //   case 0x05:
-    //     //Decrease Brightness
-    //     currentProgram = 5;
-    //   break;
-    //   case 0x06:
-    //     //Rainbow
-    //     currentProgram = 6;
-    //   break;
-    //   case 0x07:
-    //     //Off
-    //     currentProgram = 7;
-    //   break;
-    //   case 0x08:
-    //     //custom color
-    //     currentProgram = 8;
-    //   break;
-    //   case 0x09:
-    //     //hue increase
-    //     currentProgram = 9;
-    //   break;
-    //   case 0x0A:
-    //     //hue decrease
-    //     currentProgram = 10;
-    //   break;
-    //   case 0x0B:
-    //     //preset 1
-    //     currentProgram = 11;
-    //   break;
-    //   case 0x0C:
-    //     //preset 1
-    //     currentProgram = 12;
-    //   break;
-    //   case 0x0D:
-    //     //preset 1
-    //     currentProgram = 13;
-    //   break;
-    //   case 0x0E:
-    //     //preset 1
-    //     currentProgram = 14;
-    //   break;
-    //   default:
-    //     currentProgram = 0;
-    //     Serial.println("read pins 0");
-    //   break;
-    // }  
   }
 }
 
