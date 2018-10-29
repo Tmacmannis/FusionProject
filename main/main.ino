@@ -39,7 +39,9 @@ int readShowProgram = 0;
 bool rgbfade = false;
 int tempBright = 0;
 int tempBrightConfetti = 0;
+int tempBrightConfetti2 = 0;
 bool activeFadeConfetti = false;
+bool activeFadeConfetti2 = false;
 
 CRGBPalette16 currentPalette;
 TBlendType    currentBlending;
@@ -119,7 +121,7 @@ void checkRGB(){
   }
   if (rgbfade == true && currentProgram == 0){
     int brightVar = currentBrightness - tempBright;
-    if (brightVar < 4){
+    if (brightVar < 7){
       brightVar = 0;
     }
     

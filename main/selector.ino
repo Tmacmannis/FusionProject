@@ -56,7 +56,51 @@ void programSelect(){
       //bass bumping
       bass();
       break;
-
+    case 48:
+      //brightness set to zero
+      setBrightness(0);
+      break;  
+    case 49:
+      //brightness set to 1/10
+      setBrightness(1);
+      break;
+    case 50:
+      //brightness set to 2/10
+      setBrightness(2);
+      break;    
+    case 51:
+      //brightness set to 3/10
+      setBrightness(3);
+      break;   
+    case 52:
+      //brightness set to 4/10
+      setBrightness(4);
+      break;   
+    case 53:
+      //brightness set to 5/10
+      setBrightness(5);
+      break; 
+    case 54:
+      //brightness set to 6/10
+      setBrightness(6);
+      break;  
+    case 55:
+      //brightness set to 7/10
+      setBrightness(7);
+      break;   
+    case 56:
+      //brightness set to 8/10
+      setBrightness(8);
+      break;
+    case 57:
+      //brightness set to 9/10
+      setBrightness(9);
+      break;
+    case 58:
+      //brightness set to 10/10
+      setBrightness(10);
+      break;
+        
 
     default:
     break;

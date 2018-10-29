@@ -55,7 +55,7 @@ void BLEread(){
 }
 
 void BLEselect(){
-  if(BLEinput != 7){
+  if(BLEinput != 36){
     off = false;
     stillOn = 0;
     sensorOnline = false;
@@ -89,7 +89,7 @@ void checkDoor(){
       off = false;
       notMoving = 0; 
       sensorOnline = false;
-      x = 0x01; // start up animation, red for now, will be fade on to blue
+      x = 0x20; // start up animation, red for now, will be fade on to blue
     }
     else {
       prev = 0;
@@ -132,7 +132,7 @@ void checkMovement(){
     else { //turn lights off and sensor on
       notMoving = 0;
       sensorOnline = true;
-      x = 0x07;
+      x = 0x24;
       off = true;
       Serial.println("sensor hasnt moved, lights off and sensor back online!");
     } 

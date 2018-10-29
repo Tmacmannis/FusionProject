@@ -25,7 +25,7 @@ void rainbow(){
     else {
       readPins();
     }
-    if (currentProgram == 4 || currentProgram == 5){ //lower or increase brightness
+    if (currentProgram > 47 && currentProgram < 59){ //lower or increase brightness
       programSelect();
     }
     else if (currentProgram == 38 || currentProgram == 39){ // hue up or down
@@ -47,7 +47,9 @@ void confetti()
   colorFlag = 0;
   int rgbConfettiBrightness = 0;
   activeFadeConfetti = false;
+  activeFadeConfetti2 = false;
   int rgb1Hue = 0;
+  int rgb2Hue = 0;
   
   // random colored speckles that blink in and fade smoothly
   while(true){
@@ -60,14 +62,24 @@ void confetti()
     if (rgb1 == 1){
       rgbConfettiBrightness = currentBrightness;
       rgb1Hue = hue + random8(64);
-      showAnalogRGB1(CHSV(rgb1,200,rgbConfettiBrightness));
+      showAnalogRGB1(CHSV(rgb1Hue,200,rgbConfettiBrightness));
       activeFadeConfetti = true;
+    }
+    if (rgb1 == 2){
+      rgbConfettiBrightness = currentBrightness;
+      rgb2Hue = hue + random8(64);
+      showAnalogRGB2(CHSV(rgb2Hue,200,rgbConfettiBrightness));
+      activeFadeConfetti2 = true;
     }
     if (activeFadeConfetti){
       rgbConfettiController(rgbConfettiBrightness, rgb1Hue);
     }
+    if (activeFadeConfetti2){
+      rgbConfettiController2(rgbConfettiBrightness, rgb2Hue);
+    }
     readPins();
-    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 38 || currentProgram == 39){ //updates brightness and hue
+
+    if ((currentProgram > 47 && currentProgram < 59) || currentProgram == 38 || currentProgram == 39){ //updates brightness and hue
         programSelect();
       }
     else if (currentProgram != 40){
@@ -95,6 +107,21 @@ void rgbConfettiController(int rgbConfettiBrightness, int rgb1){
     //FastLED.show(); 
 }
 
+void rgbConfettiController2(int rgbConfettiBrightness, int rgb1){
+  if (tempBrightConfetti2 > rgbConfettiBrightness){
+    tempBrightConfetti2 = 0;
+  }
+  int brightVar = rgbConfettiBrightness - tempBrightConfetti2;
+  if (brightVar < 4){
+    brightVar = 0;
+    activeFadeConfetti2 = false;
+  }
+  showAnalogRGB2(CHSV(rgb1,255,brightVar));
+  tempBrightConfetti2 += 3;
+    //fadeToBlackBy( leds, NUM_LEDS, 10);
+    //FastLED.show(); 
+}
+
 
 void sinelon()
 {
@@ -106,7 +133,7 @@ void sinelon()
     leds[pos] += CHSV( hue, 255, currentBrightness);
     FastLED.delay(1000/120);
     readPins(); 
-    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 38 || currentProgram == 39){ //updates brightness and hue
+    if ((currentProgram > 47 && currentProgram < 59) || currentProgram == 38 || currentProgram == 39){ //updates brightness and hue
         programSelect();
       }
     else if (currentProgram != 41){
@@ -133,7 +160,7 @@ void sinelonDouble()
     leds[pos2] += CHSV( hue, 255, currentBrightness);
     FastLED.delay(1000/120);
     readPins();
-    if (currentProgram == 4 || currentProgram == 5 || currentProgram == 38 || currentProgram == 39){ //updates brightness and hue
+    if ((currentProgram > 47 && currentProgram < 59) || currentProgram == 38 || currentProgram == 39){ //updates brightness and hue
         programSelect();
       }
     else if (currentProgram != 42){

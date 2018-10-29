@@ -11,7 +11,7 @@ void powerOn(){
 }
 
 void red(){
-  colorFlag = 1;
+  colorFlag = 32;
   for(int i =0; i<NUM_LEDS; i++){
     leds[i] = CHSV(0, 255, currentBrightness);
   }
@@ -22,7 +22,7 @@ void red(){
 }
 
 void blue(){
-  colorFlag = 3;
+  colorFlag = 34;
   for(int i =0; i<NUM_LEDS; i++){
     leds[i] = CHSV(160, 255, currentBrightness);
   }
@@ -33,7 +33,7 @@ void blue(){
 }
 
 void green(){
-  colorFlag = 2;
+  colorFlag = 33;
   for(int i =0; i<NUM_LEDS; i++){
   leds[i] = CHSV(96, 255, currentBrightness);
   }
